@@ -11,26 +11,21 @@
     singleInstance="Yes"
 />
 </head>
-
 <script language="VBScript">
-
     Set objWMIService=GetObject("winmgmts:\\.\root\cimv2")
     Set objReg=GetObject("winmgmts:{impersonationLevel=impersonate}!\\.\root\default:StdRegProv")
     Set objShell=CreateObject("WScript.Shell")
     Dim objTimer
-
     Sub Window_onLoad
         Window.ResizeTo 512,678
         GetVersion
         GetStatus
         objTimer=setInterval("GetStatus", 1000)
     End Sub
-
     Sub GetVersion
         objShell.Run "cmd /c clash-windows-amd64 -v | clip", 0, true
         ClashStatus.InnerHTML="Clash" & "<br>" & "Version " & Mid (CreateObject("htmlfile").ParentWindow.ClipboardData.GetData("text"), 7, 11)
     End Sub
-
     Sub GetStatus
         Set colClashStatus=objWMIService.ExecQuery ("Select * from Win32_Process Where Name='clash-windows-amd64.exe'")
         objReg.GetDWORDValue &H80000001, "Software\Microsoft\Windows\CurrentVersion\Internet Settings", "ProxyEnable", colProxyStatus
@@ -54,7 +49,6 @@
             GuideArea.InnerHTML="系统代理 未打开"
         End If
     End Sub
-
     Sub StartClash
         clearInterval(objTimer)
         GuideArea.InnerHTML="关闭 Clash"
@@ -74,7 +68,6 @@
         GuideArea.InnerHTML="打开 Clash & 系统代理 完成"
         objTimer=setInterval("GetStatus", 1000)
     End Sub
-
     Sub StopClash
         clearInterval(objTimer)
         GuideArea.InnerHTML="关闭 Clash"
@@ -86,25 +79,19 @@
         GuideArea.InnerHTML="关闭 Clash & 系统代理 完成"
         objTimer=setInterval("GetStatus", 1000)
     End Sub
-
     Sub OpenRazord
         objShell.Run "http://clash.razord.top/"
     End Sub
-
     Sub OpenYacd
         objShell.Run "http://yacd.haishan.me/"
     End Sub
-
     Sub StartEnableLoopback
         objShell.Run "EnableLoopback.exe"
     End Sub
-
     Sub OpenClash
         objShell.Run "https://github.com/Dreamacro/clash/releases/tag/premium"
     End Sub
-
 </script>
-
 <body>
 <table border="8" cellspacing="8" width="100%">
     <tr>
