@@ -5,19 +5,19 @@
 自动读取Clash核心版本,然后循环读取Clash进程是否存在,系统代理是否打开,并给出提示<br>
 ## 点击打开 Clash 按钮<br>
 按照以下步骤开启Clash<br>
-1. 中断循环读取状态
+1. 中断循环读取
 2. 关闭 Clash
 3. 关闭系统代理
 4. 更新 Country.mmdb
 5. 打开系统代理
 6. 打开 Clash
-7. 开启循环读取状态
+7. 开启循环读取
 ## 点击 关闭 Clash 按钮<br>
 按照以下步骤关闭Clash<br>
-1. 中断循环读取状态
+1. 中断循环读取
 2. 关闭 Clash
 3. 关闭系统代理
-4. 开启循环读取状态
+4. 开启循环读取
 ## 点击 Razord Dashboard 按钮<br>
 访问 http://clash.razord.top/
 ## 点击 Yacd Dashboard 按钮<br>
