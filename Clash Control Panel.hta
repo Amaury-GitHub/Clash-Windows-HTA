@@ -45,45 +45,45 @@
             ProxyStatus.style.backgroundColor="red"
         End If
         If colClashStatus.Count > 0 and colProxyStatus > 0 Then
-            GuideArea.InnerHTML="Clash & ϵͳ���� �Ѵ�"
+            GuideArea.InnerHTML="Clash & 系统代理 已打开"
         ElseIf colClashStatus.Count = 0 and colProxyStatus = 0 Then
-            GuideArea.InnerHTML="Clash & ϵͳ���� δ��"
+            GuideArea.InnerHTML="Clash & 系统代理 未打开"
         ElseIf colClashStatus.Count = 0 and colProxyStatus > 0 Then
-            GuideArea.InnerHTML="Clash δ��"
+            GuideArea.InnerHTML="Clash 未打开"
         ElseIf colClashStatus.Count > 0 and colProxyStatus = 0 Then
-            GuideArea.InnerHTML="ϵͳ���� δ��"
+            GuideArea.InnerHTML="系统代理 未打开"
         End If
     End Sub
 
     Sub StartClash
         clearInterval(objTimer)
-        GuideArea.InnerHTML="�ر� Clash"
+        GuideArea.InnerHTML="关闭 Clash"
         objShell.Run "taskkill /im clash-windows-amd64.exe /t /f", 0, True
-        GuideArea.InnerHTML="�ر�ϵͳ����"
+        GuideArea.InnerHTML="关闭系统代理"
         objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyEnable /t REG_DWORD /d 0 /f", 0
         objShell.Run "reg delete ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings\ProxyOverride""", 0
         objShell.Run "reg delete ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings\ProxyServer""", 0
-        GuideArea.InnerHTML="���� Country.mmdb"
+        GuideArea.InnerHTML="更新 Country.mmdb"
         objShell.Run "powershell (new-object System.Net.WebClient).DownloadFile('https://cdn.jsdelivr.net/gh/Hackl0us/GeoIP2-CN@release/Country.mmdb','Country.mmdb')", 0, True
-        GuideArea.InnerHTML="��ϵͳ����"
+        GuideArea.InnerHTML="打开系统代理"
         objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyEnable /t REG_DWORD /d 1 /f", 0
         objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyOverride /t REG_SZ /d <local> /f", 0
         objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyServer /t REG_SZ /d 127.0.0.1:7890 /f", 0
-        GuideArea.InnerHTML="�� Clash"
-        objShell.Run "clash-windows-amd64 -d . -f .\Amaury-Clash.yaml", 0
-        GuideArea.InnerHTML="�� Clash & ϵͳ���� ���"
+        GuideArea.InnerHTML="打开 Clash"
+        objShell.Run "clash-windows-amd64 -d .", 0
+        GuideArea.InnerHTML="打开 Clash & 系统代理 完成"
         objTimer=setInterval("GetStatus", 1000)
     End Sub
 
     Sub StopClash
         clearInterval(objTimer)
-        GuideArea.InnerHTML="�ر� Clash"
+        GuideArea.InnerHTML="关闭 Clash"
         objShell.Run "taskkill /im clash-windows-amd64.exe /t /f", 0, True
-        GuideArea.InnerHTML="�ر�ϵͳ����"
+        GuideArea.InnerHTML="关闭系统代理"
         objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyEnable /t REG_DWORD /d 0 /f", 0, true
         objShell.Run "reg delete ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyOverride /f", 0
         objShell.Run "reg delete ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyServer /f", 0
-        GuideArea.InnerHTML="�ر� Clash & ϵͳ���� ���"
+        GuideArea.InnerHTML="关闭 Clash & 系统代理 完成"
         objTimer=setInterval("GetStatus", 1000)
     End Sub
 
@@ -112,22 +112,22 @@
     </tr>
     <tr height="100px">
         <th width="50%" id="ClashStatus"><font size=4>Clash</font></th>
-        <th id="ProxyStatus"><font size=4>ϵͳ����</font></th>
+        <th id="ProxyStatus"><font size=4>系统代理</font></th>
     </tr>
     <tr>
         <td colspan="2" id="GuideArea" align="center">&nbsp;</td>
     </tr>
     <tr height="100px">
-        <td align="center"><button onclick="StartClash" style="width:160px;height:80px">��<br>Clash</button></td>
-        <td align="center"><button onclick="StopClash" style="width:160px;height:80px">�ر�<br>Clash</button></td>
+        <td align="center"><button onclick="StartClash" style="width:160px;height:80px">打开<br>Clash</button></td>
+        <td align="center"><button onclick="StopClash" style="width:160px;height:80px">关闭<br>Clash</button></td>
     </tr>
     <tr height="100px">
         <td align="center"><button onclick="OpenRazord" style="width:160px;height:80px">Razord<br>Dashboard</button></td>
         <td align="center"><button onclick="OpenYacd" style="width:160px;height:80px">Yacd<br>Dashboard</button></td>
     </tr>
     <tr height="100px">
-        <td align="center"><button onclick="StartEnableLoopback" style="width:160px;height:80px">����<br>EnableLoopback</button></td>
-        <td align="center"><button onclick="OpenClash" style="width:160px;height:80px">����<br>Clash ����</button></td>
+        <td align="center"><button onclick="StartEnableLoopback" style="width:160px;height:80px">运行<br>EnableLoopback</button></td>
+        <td align="center"><button onclick="OpenClash" style="width:160px;height:80px">更新<br>Clash 核心</button></td>
     </tr>
     <tr>
         <td colspan="2" align="right"><i>Designed by Amaury</i></td>
