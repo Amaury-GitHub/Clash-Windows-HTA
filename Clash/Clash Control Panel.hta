@@ -61,21 +61,19 @@
         GuideArea.InnerHTML="关闭 Clash"
         objShell.Run "taskkill /im clash-windows-amd64.exe /t /f", 0, True
         GuideArea.InnerHTML="关闭系统代理"
-        objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyEnable /t REG_DWORD /d 0 /f", 0
-        objShell.Run "reg delete ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings\ProxyOverride""", 0
-        objShell.Run "reg delete ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings\ProxyServer""", 0
+        objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyEnable /t REG_DWORD /d 0 /f", 0, true
+        objShell.Run "reg delete ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyOverride /f", 0
+        objShell.Run "reg delete ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyServer /f", 0
         GuideArea.InnerHTML="更新 Country.mmdb"
         objShell.Run "powershell (new-object System.Net.WebClient).DownloadFile('https://cdn.jsdelivr.net/gh/Hackl0us/GeoIP2-CN@release/Country.mmdb','Country.mmdb')", 0, True
         GuideArea.InnerHTML="打开系统代理"
-        objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyEnable /t REG_DWORD /d 1 /f", 0
-        objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyOverride /t REG_SZ /d <local> /f", 0
-        objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyServer /t REG_SZ /d 127.0.0.1:7890 /f", 0
+        objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyEnable /t REG_DWORD /d 1 /f", 0, true
+        objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyOverride /t REG_SZ /d <local> /f", 0, true
+        objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyServer /t REG_SZ /d 127.0.0.1:7890 /f", 0, true
         GuideArea.InnerHTML="打开 Clash"
-        objShell.Run "clash-windows-amd64 -d . ", 0
+        objShell.Run "clash-windows-amd64 -d .", 0
         GuideArea.InnerHTML="打开 Clash & 系统代理 完成"
         objTimer=setInterval("GetStatus", 1000)
-        objShell.Run "taskkill /im reg.exe /t /f", 0
-        objShell.Run "taskkill /im conhost.exe /t /f", 0
     End Sub
 
     Sub StopClash
@@ -87,8 +85,6 @@
         objShell.Run "reg delete ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyOverride /f", 0
         objShell.Run "reg delete ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyServer /f", 0
         GuideArea.InnerHTML="关闭 Clash & 系统代理 完成"
-        objShell.Run "taskkill /im reg.exe /t /f", 0
-        objShell.Run "taskkill /im conhost.exe /t /f", 0
         objTimer=setInterval("GetStatus", 1000)
     End Sub
 
