@@ -2,7 +2,7 @@
 ## 使用VBScript编写的Clash控制面板<br>
 服务器和规则稳定之后没必要使用那么重的工具,动辄上百M,HTA非常轻量化,记事本就可以编辑<br>
 自用之余传下GitHub吧,万一有人需要呢<br>
-![image](https://github.com/Amaury-GitHub/Clash_for_Windows_HTA/blob/main/README_IMG/IMG1.png?raw=true)<br>
+![image](https://github.com/Amaury-GitHub/Clash_for_Windows_HTA/blob/main/README_IMG/IMG2.png?raw=true)<br>
 ## 启动时<br>
 自动读取Clash核心版本,然后循环读取Clash进程是否存在,系统代理是否打开,并给出提示<br>
 ## 点击 打开 Clash 按钮<br>
