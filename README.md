@@ -5,7 +5,7 @@
 ![image](https://github.com/Amaury-GitHub/Clash_for_Windows_HTA/blob/main/README_IMG/IMG1.png?raw=true)<br>
 ## 启动时<br>
 自动读取Clash核心版本,然后循环读取Clash进程是否存在,系统代理是否打开,并给出提示<br>
-## 点击打开 Clash 按钮<br>
+## 点击 打开 Clash 按钮<br>
 按照以下步骤开启Clash<br>
 1. 中断循环读取
 2. 关闭 Clash
