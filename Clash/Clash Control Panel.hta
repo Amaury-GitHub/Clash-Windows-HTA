@@ -14,14 +14,11 @@
 
 <script language="VBScript">
 
-    Set objWMIService=GetObject("winmgmts:\\.\root\cimv2")
-    Set objReg=GetObject("winmgmts:{impersonationLevel=impersonate}!\\.\root\default:StdRegProv")
     Set objShell=CreateObject("WScript.Shell")
-    Set objHtml=CreateObject("htmlfile")
     Dim objTimer
 
     Sub Window_onLoad
-        Window.ResizeTo 512,768
+        Window.ResizeTo 512,1024
         GetVersion
         GetStatus
         objTimer=setInterval("GetStatus", 1000)
@@ -29,12 +26,12 @@
 
     Sub GetVersion
         objShell.Run "cmd /c clash-windows-amd64 -v | clip", 0, true
-        ClashStatus.InnerHTML="<font face=""Sarasa Fixed SC"">" + "Clash" + "<br>" + "Version " + Mid (objHtml.ParentWindow.ClipboardData.GetData("text"), 7, 11) + "</font>"
+        ClashStatus.InnerHTML="<font face=""Sarasa Fixed SC"">" + "Clash" + "<br>" + "Version " + Mid (CreateObject("htmlfile").ParentWindow.ClipboardData.GetData("text"), 7, 11) + "</font>"
     End Sub
 
     Sub GetStatus
-        Set colClashStatus=objWMIService.ExecQuery ("Select * from Win32_Process Where Name='clash-windows-amd64.exe'")
-        objReg.GetDWORDValue &H80000001, "Software\Microsoft\Windows\CurrentVersion\Internet Settings", "ProxyEnable", colProxyStatus
+        Set colClashStatus=GetObject("winmgmts:\\.\root\cimv2").ExecQuery ("Select * from Win32_Process Where Name='clash-windows-amd64.exe'")
+        GetObject("winmgmts:{impersonationLevel=impersonate}!\\.\root\default:StdRegProv").GetDWORDValue &H80000001, "Software\Microsoft\Windows\CurrentVersion\Internet Settings", "ProxyEnable", colProxyStatus
         If colClashStatus.Count > 0 Then
             ClashStatus.style.backgroundColor="green"
         Else
