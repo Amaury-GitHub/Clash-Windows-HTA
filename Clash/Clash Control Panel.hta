@@ -18,7 +18,7 @@
     Dim objTimer
 
     Sub Window_onLoad
-        Window.ResizeTo 512,660
+        Window.ResizeTo 512,678
         GetVersion
         GetStatus
         objTimer=setInterval("GetStatus", 1000)
@@ -43,45 +43,45 @@
             ProxyStatus.style.backgroundColor="red"
         End If
         If colClashStatus.Count > 0 and colProxyStatus > 0 Then
-            GuideArea.InnerText="Clash & 系统代理 已打开"
+            GuideArea.InnerHTML="<font face=""Sarasa Fixed SC"">Clash & 系统代理 已打开</font>"
         ElseIf colClashStatus.Count = 0 and colProxyStatus = 0 Then
-            GuideArea.InnerText="Clash & 系统代理 未打开"
+            GuideArea.InnerHTML="<font face=""Sarasa Fixed SC"">Clash & 系统代理 未打开</font>"
         ElseIf colClashStatus.Count = 0 and colProxyStatus > 0 Then
-            GuideArea.InnerText="Clash 未打开"
+            GuideArea.InnerHTML="<font face=""Sarasa Fixed SC"">Clash 未打开</font>"
         ElseIf colClashStatus.Count > 0 and colProxyStatus = 0 Then
-            GuideArea.InnerText="系统代理 未打开"
+            GuideArea.InnerHTML="<font face=""Sarasa Fixed SC"">系统代理 未打开</font>"
         End If
     End Sub
 
     Sub StartClash
         clearInterval(objTimer)
-        GuideArea.InnerText="关闭 Clash"
+        GuideArea.InnerHTML="<font face=""Sarasa Fixed SC"">关闭 Clash</font>"
         objShell.Run "taskkill /im clash-windows-amd64.exe /t /f", 0, True
-        GuideArea.InnerText="关闭系统代理"
+        GuideArea.InnerHTML="<font face=""Sarasa Fixed SC"">关闭系统代理</font>"
         objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyEnable /t REG_DWORD /d 0 /f", 0, true
         objShell.Run "reg delete ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyOverride /f", 0
         objShell.Run "reg delete ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyServer /f", 0
-        GuideArea.InnerText="更新 Country.mmdb"
+        GuideArea.InnerHTML="<font face=""Sarasa Fixed SC"">更新 Country.mmdb</font>"
         objShell.Run "powershell (new-object System.Net.WebClient).DownloadFile('https://cdn.jsdelivr.net/gh/Hackl0us/GeoIP2-CN@release/Country.mmdb','Country.mmdb')", 0, True
-        GuideArea.InnerText="打开系统代理"
+        GuideArea.InnerHTML="<font face=""Sarasa Fixed SC"">打开系统代理</font>"
         objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyEnable /t REG_DWORD /d 1 /f", 0, true
         objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyOverride /t REG_SZ /d <local> /f", 0, true
         objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyServer /t REG_SZ /d 127.0.0.1:7890 /f", 0, true
-        GuideArea.InnerText="打开 Clash"
+        GuideArea.InnerHTML="<font face=""Sarasa Fixed SC"">打开 Clash</font>"
         objShell.Run "clash-windows-amd64 -d . -f .\config.yaml", 0
-        GuideArea.InnerText="打开 Clash & 系统代理 完成"
+        GuideArea.InnerHTML="<font face=""Sarasa Fixed SC"">打开 Clash & 系统代理 完成</font>"
         Cycle
     End Sub
 
     Sub StopClash
         clearInterval(objTimer)
-        GuideArea.InnerText="关闭 Clash"
+        GuideArea.InnerHTML="<font face=""Sarasa Fixed SC"">关闭 Clash</font>"
         objShell.Run "taskkill /im clash-windows-amd64.exe /t /f", 0, True
-        GuideArea.InnerText="关闭系统代理"
+        GuideArea.InnerHTML="<font face=""Sarasa Fixed SC"">关闭系统代理</font>"
         objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyEnable /t REG_DWORD /d 0 /f", 0, true
         objShell.Run "reg delete ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyOverride /f", 0
         objShell.Run "reg delete ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyServer /f", 0
-        GuideArea.InnerText="关闭 Clash & 系统代理 完成"
+        GuideArea.InnerHTML="<font face=""Sarasa Fixed SC"">关闭 Clash & 系统代理 完成</font>"
         Cycle
     End Sub
 
@@ -110,32 +110,32 @@
 
 </script>
 
-<body face="Sarasa Fixed SC">
+<body>
 <table border="8" cellspacing="8" width="100%">
     <tr>
-        <th colspan="2" align="center"><font size=6>Clash Control Panel</font></th>
+        <th colspan="2" align="center"><font face="Sarasa Fixed SC" size=6>Clash Control Panel</font></th>
     </tr>
     <tr height="100px">
-        <th width="50%" id="ClashStatus">Clash</th>
-        <th id="ProxyStatus">系统代理</th>
+        <th width="50%" id="ClashStatus"><font face="Sarasa Fixed SC">Clash</font></th>
+        <th id="ProxyStatus"><font face="Sarasa Fixed SC">系统代理</font></th>
     </tr>
     <tr>
-        <td colspan="2" id="GuideArea" align="center"><font>&nbsp;</td>
+        <td colspan="2" id="GuideArea" align="center"><font face="Sarasa Fixed SC">&nbsp;</font></td>
     </tr>
     <tr height="100px">
-        <td align="center"><button onclick="StartClash" style="width:160px;height:80px"><font>打开<br>Clash</button></td>
-        <td align="center"><button onclick="StopClash" style="width:160px;height:80px"><font>关闭<br>Clash</button></td>
+        <td align="center"><button onclick="StartClash" style="width:160px;height:80px"><font face="Sarasa Fixed SC">打开<br>Clash</font></button></td>
+        <td align="center"><button onclick="StopClash" style="width:160px;height:80px"><font face="Sarasa Fixed SC">关闭<br>Clash</font></button></td>
     </tr>
     <tr height="100px">
-        <td align="center"><button onclick="OpenRazord" style="width:160px;height:80px"><font>Razord<br>Dashboard</button></td>
-        <td align="center"><button onclick="OpenYacd" style="width:160px;height:80px"><font>Yacd<br>Dashboard</button></td>
+        <td align="center"><button onclick="OpenRazord" style="width:160px;height:80px"><font face="Sarasa Fixed SC">Razord<br>Dashboard</font></button></td>
+        <td align="center"><button onclick="OpenYacd" style="width:160px;height:80px"><font face="Sarasa Fixed SC">Yacd<br>Dashboard</font></button></td>
     </tr>
     <tr height="100px">
-        <td align="center"><button onclick="StartEnableLoopback" style="width:160px;height:80px"><font>运行<br>EnableLoopback</button></td>
-        <td align="center"><button onclick="OpenClash" style="width:160px;height:80px"><font>更新<br>Clash 核心</button></td>
+        <td align="center"><button onclick="StartEnableLoopback" style="width:160px;height:80px"><font face="Sarasa Fixed SC">运行<br>EnableLoopback</font></button></td>
+        <td align="center"><button onclick="OpenClash" style="width:160px;height:80px"><font face="Sarasa Fixed SC">更新<br>Clash 核心</font></button></td>
     </tr>
     <tr>
-        <td colspan="2" align="right"><i><font>Designed by Amaury</i></td>
+        <td colspan="2" align="right"><i><font face="Sarasa Fixed SC">Designed by Amaury</font></i></td>
     </tr>
 </table>
 </body>
