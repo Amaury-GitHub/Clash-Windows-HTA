@@ -26,7 +26,7 @@
 
     Sub GetVersion
         objShell.Run "cmd /c clash-windows-amd64 -v | clip", 0, true
-        ClashStatus.InnerHTML="<font face=""Sarasa Fixed SC"">" + "Clash" + "<br>" + "Version " + Mid (CreateObject("htmlfile").ParentWindow.ClipboardData.GetData("text"), 7, 11) + "</font>"
+        ClashStatus.InnerHTML="<font face=""Sarasa Fixed SC"">" + "Clash<br>" + Mid (CreateObject("htmlfile").ParentWindow.ClipboardData.GetData("text"), 7, 11) + "</font>"
     End Sub
 
     Sub GetStatus
