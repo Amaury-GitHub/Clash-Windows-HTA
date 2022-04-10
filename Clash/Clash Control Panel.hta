@@ -15,17 +15,47 @@
 <script language="VBScript">
 
     Set objShell=CreateObject("WScript.Shell")
+    Set objHTTP=CreateObject("Msxml2.ServerXMLHTTP.6.0")
     Dim objTimer
+    Dim objColon(1)
+    Dim objComma(1)
+    Dim monthly_bw_limit_b
+    Dim bw_counter_b
+    Dim percent
 
     Sub Window_onLoad
-        Window.ResizeTo 512,678
+        Window.ResizeTo 512,784
         GetVersion
         objTimer=setInterval("GetStatus", 1000)
+        GetJMS
+        setInterval"GetJMS", 600000
+    End Sub
+
+    Sub GetJMS
+        objHTTP.open "GET","https://justmysocks5.net/members/getbwcounter.php?service=xxxxxx&id=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx", False
+        objHTTP.send ()
+        objColon(0)=InStr(objHTTP.responseText, ":")
+        objColon(1)=InStr(objColon(0)+1, objHTTP.responseText, ":")
+        objComma(0)=InStr(objHTTP.responseText, ",")
+        objComma(1)=InStr(objComma(0)+1, objHTTP.responseText, ",")
+        monthly_bw_limit_b=CCur(Mid (objHTTP.responseText, objColon(0)+1, objComma(0)-objColon(0)-1))
+        bw_counter_b=CCur(Mid (objHTTP.responseText, objColon(1)+1, objComma(1)-objColon(1)-1))
+        percent=Round (bw_counter_b/monthly_bw_limit_b*100, 2)
+        if percent > 0 and percent <= 50 then
+            Elements.style.[background-color]="green"
+            elseIF percent > 50 and percent <= 80 then
+            Elements.style.[background-color]="yellow"
+            else
+            Elements.style.[background-color]="red"
+            end if
+        Elements.style.width=percent & "%"
+        Label1.innerHTML="<font face=""Sarasa Fixed SC"">" & bw_counter_b & "<br>" & percent & "%" & "</font>"
+        Label2.innerHTML="<font face=""Sarasa Fixed SC"">" & monthly_bw_limit_b & "</font>"
     End Sub
 
     Sub GetVersion
         objShell.Run "cmd /c clash-windows-amd64 -v | clip", 0, true
-        ClashStatus.InnerHTML="<font face=""Sarasa Fixed SC"">" + "Clash<br>" + Mid (CreateObject("htmlfile").ParentWindow.ClipboardData.GetData("text"), 7, 11) + "</font>"
+        ClashStatus.InnerHTML="<font face=""Sarasa Fixed SC"">" & "Clash<br>" & Mid (CreateObject("htmlfile").ParentWindow.ClipboardData.GetData("text"), 7, 11) & "</font>"
     End Sub
 
     Sub GetStatus
@@ -109,32 +139,69 @@
 
 </script>
 
+<style>
+
+#Chart {
+    position: relative;
+    width: 100%;
+    height: 90px;
+    background-color: #ddd;
+}
+
+#Elements {
+    position: absolute;
+    width: 0%;
+    height: 100%;
+    text-align: center;
+}
+
+#Label1 {
+    text-align: center;
+    width: 130px;
+    padding: 5px;
+    line-height: 40px;
+}
+
+#Label2 {
+    position: absolute;
+    right: 0px;
+    padding: 5px;
+    line-height: 80px;
+}
+
+</style>
+
 <body>
+
 <table border="8" cellspacing="8" width="100%">
     <tr>
-        <th colspan="2" align="center"><font face="Sarasa Fixed SC" size=6>Clash Control Panel</font></th>
+        <th colspan="2" align="center" valign="center"><font face="Sarasa Fixed SC" size=6>Clash Control Panel</font></th>
     </tr>
     <tr height="100px">
-        <th width="50%" id="ClashStatus"><font face="Sarasa Fixed SC">Clash</font></th>
-        <th id="ProxyStatus"><font face="Sarasa Fixed SC">系统代理</font></th>
+        <th width="50%" align="center" valign="center" id="ClashStatus"><font face="Sarasa Fixed SC">Clash</font></th>
+        <th align="center" valign="center" id="ProxyStatus"><font face="Sarasa Fixed SC">系统代理</font></th>
     </tr>
     <tr>
-        <td colspan="2" id="GuideArea" align="center"><font face="Sarasa Fixed SC">&nbsp;</font></td>
+        <td colspan="2" align="center" valign="center" id="GuideArea"><font face="Sarasa Fixed SC">&nbsp;</font></td>
     </tr>
     <tr height="100px">
-        <td align="center"><button onclick="StartClash" style="width:160px;height:80px"><font face="Sarasa Fixed SC">打开<br>Clash</font></button></td>
-        <td align="center"><button onclick="StopClash" style="width:160px;height:80px"><font face="Sarasa Fixed SC">关闭<br>Clash</font></button></td>
+        <td align="center" valign="center"><button onclick="StartClash" style="width:160px;height:80px"><font face="Sarasa Fixed SC">打开<br>Clash</font></button></td>
+        <td align="center" valign="center"><button onclick="StopClash" style="width:160px;height:80px"><font face="Sarasa Fixed SC">关闭<br>Clash</font></button></td>
     </tr>
     <tr height="100px">
-        <td align="center"><button onclick="OpenRazord" style="width:160px;height:80px"><font face="Sarasa Fixed SC">Razord<br>Dashboard</font></button></td>
-        <td align="center"><button onclick="OpenYacd" style="width:160px;height:80px"><font face="Sarasa Fixed SC">Yacd<br>Dashboard</font></button></td>
+        <td align="center" valign="center"><button onclick="OpenRazord" style="width:160px;height:80px"><font face="Sarasa Fixed SC">Razord<br>Dashboard</font></button></td>
+        <td align="center" valign="center"><button onclick="OpenYacd" style="width:160px;height:80px"><font face="Sarasa Fixed SC">Yacd<br>Dashboard</font></button></td>
     </tr>
     <tr height="100px">
-        <td align="center"><button onclick="StartEnableLoopback" style="width:160px;height:80px"><font face="Sarasa Fixed SC">运行<br>EnableLoopback</font></button></td>
-        <td align="center"><button onclick="OpenClash" style="width:160px;height:80px"><font face="Sarasa Fixed SC">更新<br>Clash 核心</font></button></td>
+        <td align="center" valign="center"><button onclick="StartEnableLoopback" style="width:160px;height:80px"><font face="Sarasa Fixed SC">运行<br>EnableLoopback</font></button></td>
+        <td align="center" valign="center"><button onclick="OpenClash" style="width:160px;height:80px"><font face="Sarasa Fixed SC">更新<br>Clash 核心</font></button></td>
     </tr>
     <tr>
-        <td colspan="2" align="right"><i><font face="Sarasa Fixed SC">Designed by Amaury</font></i></td>
+    <td colspan="2" valign="center"><div id="Chart"><div id="Elements"><div id="Label1"></div></div><div id="Label2"></div></div></td>
+    </tr>
+    <tr>
+        <td colspan="2" align="right" valign="center"><i><font face="Sarasa Fixed SC">Designed by Amaury</font></i></td>
     </tr>
 </table>
+
 </body>
