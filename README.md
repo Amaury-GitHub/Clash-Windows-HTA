@@ -13,13 +13,15 @@
 4. 更新 Country.mmdb
 5. 打开系统代理
 6. 打开 Clash
-7. 开启循环读取
+7. taskkill调用的进程(cmd.exe,conhost.exe,reg.exe)
+8. 开启循环读取
 ## 点击 关闭 Clash 按钮<br>
 按照以下步骤关闭Clash<br>
 1. 中断循环读取
 2. 关闭 Clash
 3. 关闭系统代理
-4. 开启循环读取
+4. taskkill调用的进程(cmd.exe,conhost.exe,reg.exe)
+5. 开启循环读取
 ## 点击 Razord Dashboard 按钮<br>
 访问 http://clash.razord.top/
 ## 点击 Yacd Dashboard 按钮<br>
