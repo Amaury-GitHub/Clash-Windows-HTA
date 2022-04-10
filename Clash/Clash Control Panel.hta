@@ -73,7 +73,7 @@
         GuideArea.InnerHTML="打开 Clash"
         objShell.Run "clash-windows-amd64 -d .", 0
         GuideArea.InnerHTML="打开 Clash & 系统代理 完成"
-        objTimer=setInterval("GetStatus", 1000)
+        Cycle
     End Sub
 
     Sub StopClash
@@ -85,9 +85,16 @@
         objShell.Run "reg delete ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyOverride /f", 0
         objShell.Run "reg delete ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyServer /f", 0
         GuideArea.InnerHTML="关闭 Clash & 系统代理 完成"
-        objTimer=setInterval("GetStatus", 1000)
+        Cycle
     End Sub
 
+    Sub Cycle
+        objShell.Run "taskkill /im reg.exe /t /f", 0, True
+        objShell.Run "taskkill /im conhost.exe /t /f", 0, True
+        objShell.Run "taskkill /im cmd.exe /t /f", 0, True
+        objTimer=setInterval("GetStatus", 1000)
+    End Sub
+    
     Sub OpenRazord
         objShell.Run "http://clash.razord.top/"
     End Sub
