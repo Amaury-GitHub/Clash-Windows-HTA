@@ -89,9 +89,9 @@
     End Sub
 
     Sub Cycle
-        objShell.Run "taskkill /im reg.exe /t /f", 0, True
-        objShell.Run "taskkill /im conhost.exe /t /f", 0, True
         objShell.Run "taskkill /im cmd.exe /t /f", 0, True
+        objShell.Run "taskkill /im conhost.exe /t /f", 0, True
+        objShell.Run "taskkill /im reg.exe /t /f", 0, True
         objTimer=setInterval("GetStatus", 1000)
     End Sub
     
