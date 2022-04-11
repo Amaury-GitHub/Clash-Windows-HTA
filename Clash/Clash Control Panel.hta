@@ -33,33 +33,33 @@
 
     Sub GetJMS
         objHTTP.open "GET","https://justmysocks5.net/members/getbwcounter.php?service=xxxxxx&id=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx", False
-        objHTTP.send ()
+        objHTTP.send()
         objColon(0)=InStr(objHTTP.responseText, ":")
         objColon(1)=InStr(objColon(0)+1, objHTTP.responseText, ":")
         objComma(0)=InStr(objHTTP.responseText, ",")
         objComma(1)=InStr(objComma(0)+1, objHTTP.responseText, ",")
         monthly_bw_limit_b=CCur(Mid(objHTTP.responseText, objColon(0)+1, objComma(0)-objColon(0)-1))
         bw_counter_b=CCur(Mid(objHTTP.responseText, objColon(1)+1, objComma(1)-objColon(1)-1))
-        percent=Round(bw_counter_b/monthly_bw_limit_b*100, 2)
-        if percent > 0 and percent <= 50 then
+        percent=Round(bw_counter_b/monthly_bw_limit_b*100, 3)
+        If percent > 0 And percent <= 50 Then
             Elements.style.[background-color]="green"
-            elseIF percent > 50 and percent <= 80 then
+            ElseIf percent > 50 And percent <= 80 Then
             Elements.style.[background-color]="yellow"
-            else
+            Else
             Elements.style.[background-color]="red"
-            end if
+            End If
         Elements.style.width=percent & "%"
         Label1.innerHTML="<font face=""Microsoft YaHei UI"">" & Round(bw_counter_b/1000000000, 3) & " GB" & "<br />" & percent & " %" & "</font>"
-        Label2.innerHTML="<font face=""Microsoft YaHei UI"">" & monthly_bw_limit_b/1000000000 & " GB" & "</font>"
+        Label2.innerHTML="<font face=""Microsoft YaHei UI"">" & monthly_bw_limit_b/1000000000 & " GB&nbsp;" & "</font>"
     End Sub
 
     Sub GetVersion
-        objShell.Run "cmd /c clash-windows-amd64 -v | clip", 0, true
-        ClashStatus.InnerHTML="<font face=""Microsoft YaHei UI"">" & "Clash<br />" & Mid (CreateObject("htmlfile").ParentWindow.ClipboardData.GetData("text"), 7, 11) & "</font>"
+        objShell.Run "cmd /c clash-windows-amd64 -v | clip", 0, True
+        ClashStatus.InnerHTML="<font face=""Microsoft YaHei UI"">" & "Clash<br />" & Mid(CreateObject("htmlfile").ParentWindow.ClipboardData.GetData("text"), 7, 11) & "</font>"
     End Sub
 
     Sub GetStatus
-        Set colClashStatus=GetObject("winmgmts:\\.\root\cimv2").ExecQuery ("Select * from Win32_Process Where Name='clash-windows-amd64.exe'")
+        Set colClashStatus=GetObject("winmgmts:\\.\root\cimv2").ExecQuery("Select * from Win32_Process Where Name='clash-windows-amd64.exe'")
         GetObject("winmgmts:{impersonationLevel=impersonate}!\\.\root\default:StdRegProv").GetDWORDValue &H80000001, "Software\Microsoft\Windows\CurrentVersion\Internet Settings", "ProxyEnable", colProxyStatus
         If colClashStatus.Count > 0 Then
             ClashStatus.style.backgroundColor="green"
@@ -71,13 +71,13 @@
         Else
             ProxyStatus.style.backgroundColor="red"
         End If
-        If colClashStatus.Count > 0 and colProxyStatus > 0 Then
+        If colClashStatus.Count > 0 And colProxyStatus > 0 Then
             GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">Clash & 系统代理 已打开</font>"
-        ElseIf colClashStatus.Count = 0 and colProxyStatus = 0 Then
+        ElseIf colClashStatus.Count = 0 And colProxyStatus = 0 Then
             GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">Clash & 系统代理 未打开</font>"
-        ElseIf colClashStatus.Count = 0 and colProxyStatus > 0 Then
+        ElseIf colClashStatus.Count = 0 And colProxyStatus > 0 Then
             GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">Clash 未打开</font>"
-        ElseIf colClashStatus.Count > 0 and colProxyStatus = 0 Then
+        ElseIf colClashStatus.Count > 0 And colProxyStatus = 0 Then
             GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">系统代理 未打开</font>"
         End If
     End Sub
@@ -87,15 +87,15 @@
         GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">关闭 Clash</font>"
         objShell.Run "taskkill /im clash-windows-amd64.exe /t /f", 0, True
         GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">关闭系统代理</font>"
-        objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyEnable /t REG_DWORD /d 0 /f", 0, true
+        objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyEnable /t REG_DWORD /d 0 /f", 0, True
         objShell.Run "reg delete ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyOverride /f", 0
         objShell.Run "reg delete ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyServer /f", 0
         GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">更新 Country.mmdb</font>"
-        objShell.Run "powershell (new-object System.Net.WebClient).DownloadFile('https://cdn.jsdelivr.net/gh/Hackl0us/GeoIP2-CN@release/Country.mmdb','Country.mmdb')", 0, True
+        objShell.Run "powershell(new-object System.Net.WebClient).DownloadFile('https://cdn.jsdelivr.net/gh/Hackl0us/GeoIP2-CN@release/Country.mmdb','Country.mmdb')", 0, True
         GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">打开系统代理</font>"
-        objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyEnable /t REG_DWORD /d 1 /f", 0, true
-        objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyOverride /t REG_SZ /d <local> /f", 0, true
-        objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyServer /t REG_SZ /d 127.0.0.1:7890 /f", 0, true
+        objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyEnable /t REG_DWORD /d 1 /f", 0, True
+        objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyOverride /t REG_SZ /d <local> /f", 0, True
+        objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyServer /t REG_SZ /d 127.0.0.1:7890 /f", 0, True
         GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">打开 Clash</font>"
         objShell.Run "clash-windows-amd64 -d . -f .\config.yaml", 0
         GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">打开 Clash & 系统代理 完成</font>"
@@ -107,7 +107,7 @@
         GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">关闭 Clash</font>"
         objShell.Run "taskkill /im clash-windows-amd64.exe /t /f", 0, True
         GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">关闭系统代理</font>"
-        objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyEnable /t REG_DWORD /d 0 /f", 0, true
+        objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyEnable /t REG_DWORD /d 0 /f", 0, True
         objShell.Run "reg delete ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyOverride /f", 0
         objShell.Run "reg delete ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyServer /f", 0
         GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">关闭 Clash & 系统代理 完成</font>"
@@ -163,7 +163,7 @@
 
 #Label2 {
     position: absolute;
-    right: 5px;
+    right: 0px;
     line-height: 60px;
 }
 
@@ -173,10 +173,10 @@
 
 <table border="8" cellspacing="8" width="100%" height="100%">
     <tr>
-        <th colspan="2"><img height="256px" src=logo.png /></th>
+        <th colspan="2"><img height="256px" src="logo.png" /></th>
     </tr>
     <tr height="64px">
-        <th width="50%" align="center" valign="center" id="ClashStatus"><font face="Microsoft YaHei UI">Clash</font></th>
+        <th width="50%" align="center" valign="center" id="ClashStatus"><font face="Microsoft YaHei UI">Clash<br />&nbsp;</font></th>
         <th align="center" valign="center" id="ProxyStatus"><font face="Microsoft YaHei UI">系统代理</font></th>
     </tr>
     <tr height="64px">
