@@ -41,13 +41,13 @@
         monthly_bw_limit_b=CCur(Mid(objHTTP.responseText, objColon(0)+1, objComma(0)-objColon(0)-1))
         bw_counter_b=CCur(Mid(objHTTP.responseText, objColon(1)+1, objComma(1)-objColon(1)-1))
         percent=Round(bw_counter_b/monthly_bw_limit_b*100, 3)
-        If percent > 0 And percent <= 50 Then
-            Elements.style.[background-color]="green"
-            ElseIf percent > 50 And percent <= 80 Then
-            Elements.style.[background-color]="yellow"
-            Else
+        If percent > 80 Then
             Elements.style.[background-color]="red"
-            End If
+        ElseIf percent > 50 Then
+            Elements.style.[background-color]="yellow"
+        Else
+            Elements.style.[background-color]="green"
+        End If
         Elements.style.width=percent & "%"
         Label1.innerHTML="<font face=""Microsoft YaHei UI"">" & Round(bw_counter_b/1000000000, 3) & " GB" & "<br />" & percent & " %" & "</font>"
         Label2.innerHTML="<font face=""Microsoft YaHei UI"">" & monthly_bw_limit_b/1000000000 & " GB&nbsp;" & "</font>"
