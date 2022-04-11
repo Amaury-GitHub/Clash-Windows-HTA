@@ -97,7 +97,7 @@
         objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyOverride /t REG_SZ /d <local> /f", 0, true
         objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyServer /t REG_SZ /d 127.0.0.1:7890 /f", 0, true
         GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">打开 Clash</font>"
-        objShell.Run "clash-windows-amd64 -d . -f .\Amaury-Clash.yaml", 0
+        objShell.Run "clash-windows-amd64 -d . -f .\config.yaml", 0
         GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">打开 Clash & 系统代理 完成</font>"
         Cycle
     End Sub
