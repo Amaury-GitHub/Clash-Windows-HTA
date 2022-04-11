@@ -34,12 +34,6 @@
 自行判断是否需要更新吧
 ## 关闭<br>
 没有任何操作,可以用完就退,没有遗留进程,只保留Clash自身<br>
-
----
-
-PS:可以使用集成图标的批处理,让面板运行起来更美观
-
----
 ## 修改提示<br>
 ![image](https://github.com/Amaury-GitHub/Clash_for_Windows_HTA/blob/main/README_IMG/IMG3.png)<br>
 此处修改JMS的api地址<br>
