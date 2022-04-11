@@ -6,10 +6,9 @@
     contextMenu="No"
     icon="logo.ico"
     maximizeButton="No"
-    selection="No"
     scroll="No"
-    singleInstance="Yes"
-/>
+    selection="No"
+    singleInstance="Yes" />
 </head>
 
 <script language="VBScript">
@@ -24,7 +23,8 @@
     Dim percent
 
     Sub Window_onLoad
-        Window.ResizeTo 512,784
+        window.resizeTo 510,870
+        window.moveTo (screen.availWidth-494)/2, (screen.availHeight-862)/2
         GetVersion
         objTimer=setInterval("GetStatus", 1000)
         GetJMS
@@ -49,13 +49,13 @@
             Elements.style.[background-color]="red"
             end if
         Elements.style.width=percent & "%"
-        Label1.innerHTML="<font face=""Sarasa Fixed SC"">" & bw_counter_b & "<br>" & percent & "%" & "</font>"
-        Label2.innerHTML="<font face=""Sarasa Fixed SC"">" & monthly_bw_limit_b & "</font>"
+        Label1.innerHTML="<font face=""Microsoft YaHei UI"">" & bw_counter_b & "<br />" & percent & "%" & "</font>"
+        Label2.innerHTML="<font face=""Microsoft YaHei UI"">" & monthly_bw_limit_b & "</font>"
     End Sub
 
     Sub GetVersion
         objShell.Run "cmd /c clash-windows-amd64 -v | clip", 0, true
-        ClashStatus.InnerHTML="<font face=""Sarasa Fixed SC"">" & "Clash<br>" & Mid (CreateObject("htmlfile").ParentWindow.ClipboardData.GetData("text"), 7, 11) & "</font>"
+        ClashStatus.InnerHTML="<font face=""Microsoft YaHei UI"">" & "Clash<br />" & Mid (CreateObject("htmlfile").ParentWindow.ClipboardData.GetData("text"), 7, 11) & "</font>"
     End Sub
 
     Sub GetStatus
@@ -72,45 +72,45 @@
             ProxyStatus.style.backgroundColor="red"
         End If
         If colClashStatus.Count > 0 and colProxyStatus > 0 Then
-            GuideArea.InnerHTML="<font face=""Sarasa Fixed SC"">Clash & 系统代理 已打开</font>"
+            GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">Clash & 系统代理 已打开</font>"
         ElseIf colClashStatus.Count = 0 and colProxyStatus = 0 Then
-            GuideArea.InnerHTML="<font face=""Sarasa Fixed SC"">Clash & 系统代理 未打开</font>"
+            GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">Clash & 系统代理 未打开</font>"
         ElseIf colClashStatus.Count = 0 and colProxyStatus > 0 Then
-            GuideArea.InnerHTML="<font face=""Sarasa Fixed SC"">Clash 未打开</font>"
+            GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">Clash 未打开</font>"
         ElseIf colClashStatus.Count > 0 and colProxyStatus = 0 Then
-            GuideArea.InnerHTML="<font face=""Sarasa Fixed SC"">系统代理 未打开</font>"
+            GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">系统代理 未打开</font>"
         End If
     End Sub
 
     Sub StartClash
         clearInterval(objTimer)
-        GuideArea.InnerHTML="<font face=""Sarasa Fixed SC"">关闭 Clash</font>"
+        GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">关闭 Clash</font>"
         objShell.Run "taskkill /im clash-windows-amd64.exe /t /f", 0, True
-        GuideArea.InnerHTML="<font face=""Sarasa Fixed SC"">关闭系统代理</font>"
+        GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">关闭系统代理</font>"
         objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyEnable /t REG_DWORD /d 0 /f", 0, true
         objShell.Run "reg delete ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyOverride /f", 0
         objShell.Run "reg delete ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyServer /f", 0
-        GuideArea.InnerHTML="<font face=""Sarasa Fixed SC"">更新 Country.mmdb</font>"
+        GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">更新 Country.mmdb</font>"
         objShell.Run "powershell (new-object System.Net.WebClient).DownloadFile('https://cdn.jsdelivr.net/gh/Hackl0us/GeoIP2-CN@release/Country.mmdb','Country.mmdb')", 0, True
-        GuideArea.InnerHTML="<font face=""Sarasa Fixed SC"">打开系统代理</font>"
+        GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">打开系统代理</font>"
         objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyEnable /t REG_DWORD /d 1 /f", 0, true
         objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyOverride /t REG_SZ /d <local> /f", 0, true
         objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyServer /t REG_SZ /d 127.0.0.1:7890 /f", 0, true
-        GuideArea.InnerHTML="<font face=""Sarasa Fixed SC"">打开 Clash</font>"
-        objShell.Run "clash-windows-amd64 -d . -f .\config.yaml", 0
-        GuideArea.InnerHTML="<font face=""Sarasa Fixed SC"">打开 Clash & 系统代理 完成</font>"
+        GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">打开 Clash</font>"
+        objShell.Run "clash-windows-amd64 -d . -f .\Amaury-Clash.yaml", 0
+        GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">打开 Clash & 系统代理 完成</font>"
         Cycle
     End Sub
 
     Sub StopClash
         clearInterval(objTimer)
-        GuideArea.InnerHTML="<font face=""Sarasa Fixed SC"">关闭 Clash</font>"
+        GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">关闭 Clash</font>"
         objShell.Run "taskkill /im clash-windows-amd64.exe /t /f", 0, True
-        GuideArea.InnerHTML="<font face=""Sarasa Fixed SC"">关闭系统代理</font>"
+        GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">关闭系统代理</font>"
         objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyEnable /t REG_DWORD /d 0 /f", 0, true
         objShell.Run "reg delete ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyOverride /f", 0
         objShell.Run "reg delete ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyServer /f", 0
-        GuideArea.InnerHTML="<font face=""Sarasa Fixed SC"">关闭 Clash & 系统代理 完成</font>"
+        GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">关闭 Clash & 系统代理 完成</font>"
         Cycle
     End Sub
 
@@ -144,7 +144,7 @@
 #Chart {
     position: relative;
     width: 100%;
-    height: 90px;
+    height: 60px;
     background-color: #ddd;
 }
 
@@ -158,15 +158,13 @@
 #Label1 {
     text-align: center;
     width: 130px;
-    padding: 5px;
-    line-height: 40px;
+    line-height: 30px;
 }
 
 #Label2 {
     position: absolute;
-    right: 0px;
-    padding: 5px;
-    line-height: 80px;
+    right: 5px;
+    line-height: 60px;
 }
 
 </style>
@@ -175,32 +173,32 @@
 
 <table border="8" cellspacing="8" width="100%" height="100%">
     <tr>
-        <th colspan="2" align="center" valign="center"><font face="Sarasa Fixed SC" size=6>Clash Control Panel</font></th>
+        <th colspan="2"><img height="256px" src=logo.png /></th>
     </tr>
-    <tr height="100px">
-        <th width="50%" align="center" valign="center" id="ClashStatus"><font face="Sarasa Fixed SC">Clash</font></th>
-        <th align="center" valign="center" id="ProxyStatus"><font face="Sarasa Fixed SC">系统代理</font></th>
+    <tr height="64px">
+        <th width="50%" align="center" valign="center" id="ClashStatus"><font face="Microsoft YaHei UI">Clash</font></th>
+        <th align="center" valign="center" id="ProxyStatus"><font face="Microsoft YaHei UI">系统代理</font></th>
     </tr>
-    <tr height="100px">
-        <td colspan="2" align="center" valign="center" id="GuideArea"><font face="Sarasa Fixed SC">&nbsp;</font></td>
+    <tr height="64px">
+        <td colspan="2" align="center" valign="center" id="GuideArea"><font face="Microsoft YaHei UI">&nbsp;</font></td>
     </tr>
-    <tr height="100px">
-        <td align="center" valign="center"><button onclick="StartClash" style="width:160px;height:80px"><font face="Sarasa Fixed SC">打开<br>Clash</font></button></td>
-        <td align="center" valign="center"><button onclick="StopClash" style="width:160px;height:80px"><font face="Sarasa Fixed SC">关闭<br>Clash</font></button></td>
+    <tr height="72px">
+        <td align="center" valign="center"><button onclick="StartClash" style="width:160px;height:64px"><font face="Microsoft YaHei UI">打开<br />Clash</font></button></td>
+        <td align="center" valign="center"><button onclick="StopClash" style="width:160px;height:64px"><font face="Microsoft YaHei UI">关闭<br />Clash</font></button></td>
     </tr>
-    <tr height="100px">
-        <td align="center" valign="center"><button onclick="OpenRazord" style="width:160px;height:80px"><font face="Sarasa Fixed SC">Razord<br>Dashboard</font></button></td>
-        <td align="center" valign="center"><button onclick="OpenYacd" style="width:160px;height:80px"><font face="Sarasa Fixed SC">Yacd<br>Dashboard</font></button></td>
+    <tr height="72px">
+        <td align="center" valign="center"><button onclick="OpenRazord" style="width:160px;height:64px"><font face="Microsoft YaHei UI">Razord<br />Dashboard</font></button></td>
+        <td align="center" valign="center"><button onclick="OpenYacd" style="width:160px;height:64px"><font face="Microsoft YaHei UI">Yacd<br />Dashboard</font></button></td>
     </tr>
-    <tr height="100px">
-        <td align="center" valign="center"><button onclick="StartEnableLoopback" style="width:160px;height:80px"><font face="Sarasa Fixed SC">运行<br>EnableLoopback</font></button></td>
-        <td align="center" valign="center"><button onclick="OpenClash" style="width:160px;height:80px"><font face="Sarasa Fixed SC">更新<br>Clash 核心</font></button></td>
+    <tr height="72px">
+        <td align="center" valign="center"><button onclick="StartEnableLoopback" style="width:160px;height:64px"><font face="Microsoft YaHei UI">运行<br />EnableLoopback</font></button></td>
+        <td align="center" valign="center"><button onclick="OpenClash" style="width:160px;height:64px"><font face="Microsoft YaHei UI">更新<br />Clash 核心</font></button></td>
     </tr>
-    <tr height="100px">
+    <tr height="64px">
     <td colspan="2" valign="center"><div id="Chart"><div id="Elements"><div id="Label1"></div></div><div id="Label2"></div></div></td>
     </tr>
-    <tr height="50px">
-        <td colspan="2" align="right" valign="center"><i><font face="Sarasa Fixed SC">Designed by Amaury</font></i></td>
+    <tr>
+        <td colspan="2" align="right" valign="center"><i ><font face="Microsoft YaHei UI">Designed by Amaury&nbsp;</font></i></td>
     </tr>
 </table>
 
