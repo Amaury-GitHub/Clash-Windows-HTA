@@ -25,11 +25,24 @@
     Sub Window_onLoad
         window.resizeTo 510,870
         window.moveTo (screen.availWidth-510)/2, (screen.availHeight-870)/2
+        RBTray
         GetVersion
         GetStatus
         objTimer=setInterval("GetStatus", 60000)
         GetJMS
         setInterval"GetJMS", 600000
+    End Sub
+
+    Sub Window_OnUnload
+        objShell.Run "taskkill /im cmd.exe /t /f", 0, True
+        objShell.Run "taskkill /im conhost.exe /t /f", 0, True
+        objShell.Run "taskkill /im reg.exe /t /f", 0, True
+        objShell.Run "taskkill /im RBTray.exe /t /f", 0, True
+    End Sub
+
+    Sub RBTray
+        objShell.Run "taskkill /im RBTray.exe /t /f", 0, True
+        objShell.Run "RBTray.exe"
     End Sub
 
     Sub GetJMS
