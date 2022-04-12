@@ -2,10 +2,8 @@
 <title>Clash Control Panel</title>
 <HTA:APPLICATION
     applicationName="Clash Control Panel"
-    border="Dialog"
     contextMenu="No"
-    icon="logo.ico"
-    maximizeButton="No"
+    icon="icon.ico"
     scroll="No"
     selection="No"
     singleInstance="Yes" />
@@ -15,7 +13,8 @@
 
     Set objShell=CreateObject("WScript.Shell")
     Set objHTTP=CreateObject("Msxml2.ServerXMLHTTP.6.0")
-    Dim objTimer
+    Dim objTimer1
+    Dim objTimer2
     Dim objColon(1)
     Dim objComma(1)
     Dim monthly_bw_limit_b
@@ -23,48 +22,25 @@
     Dim percent
 
     Sub Window_onLoad
-        window.resizeTo 510,870
-        window.moveTo (screen.availWidth-510)/2, (screen.availHeight-870)/2
-        RBTray
+        window.resizeTo 512, screen.availHeight
+        window.moveTo 0, 0
+        objShell.Run "RBTray.exe"
         GetVersion
         GetStatus
         GetJMS
-        objTimer=setInterval("GetStatus", 60000)
-        setInterval"GetJMS", 600000
+        objTimer1=setInterval("GetStatus", 60000)
+        objTimer2=setInterval("GetJMS", 600000)
     End Sub
 
     Sub Window_OnUnload
+        clearInterval(objTimer1)
+        clearInterval(objTimer2)
         objShell.Run "taskkill /im cmd.exe /t /f", 0, True
         objShell.Run "taskkill /im conhost.exe /t /f", 0, True
         objShell.Run "taskkill /im reg.exe /t /f", 0, True
-        objShell.Run "taskkill /im RBTray.exe /t /f", 0, True
-    End Sub
-
-    Sub RBTray
-        objShell.Run "taskkill /im RBTray.exe /t /f", 0, True
-        objShell.Run "RBTray.exe"
-    End Sub
-
-    Sub GetJMS
-        objHTTP.open "GET","https://justmysocks5.net/members/getbwcounter.php?service=xxxxxx&id=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx", False
-        objHTTP.send()
-        objColon(0)=InStr(objHTTP.responseText, ":")
-        objColon(1)=InStr(objColon(0)+1, objHTTP.responseText, ":")
-        objComma(0)=InStr(objHTTP.responseText, ",")
-        objComma(1)=InStr(objComma(0)+1, objHTTP.responseText, ",")
-        monthly_bw_limit_b=CCur(Mid(objHTTP.responseText, objColon(0)+1, objComma(0)-objColon(0)-1))
-        bw_counter_b=CCur(Mid(objHTTP.responseText, objColon(1)+1, objComma(1)-objColon(1)-1))
-        percent=Round(bw_counter_b/monthly_bw_limit_b*100, 3)
-        If percent > 80 Then
-            Elements.style.[background-color]="red"
-        ElseIf percent > 50 Then
-            Elements.style.[background-color]="yellow"
-        Else
-            Elements.style.[background-color]="green"
-        End If
-        Elements.style.width=percent & "%"
-        Label1.innerHTML="<font face=""Microsoft YaHei UI"">" & Round(bw_counter_b/1000000000, 3) & " GB" & "<br />" & percent & " %" & "</font>"
-        Label2.innerHTML="<font face=""Microsoft YaHei UI"">" & monthly_bw_limit_b/1000000000 & " GB&nbsp;" & "</font>"
+        objShell.Run "RBTray.exe --exit"
+        Set objShell = Nothing
+        Set objHTTP = Nothing
     End Sub
 
     Sub GetVersion
@@ -96,8 +72,31 @@
         End If
     End Sub
 
+    Sub GetJMS
+        objHTTP.open "GET","https://justmysocks5.net/members/getbwcounter.php?service=xxxxxx&id=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx", False
+        objHTTP.send()
+        objColon(0)=InStr(objHTTP.responseText, ":")
+        objColon(1)=InStr(objColon(0)+1, objHTTP.responseText, ":")
+        objComma(0)=InStr(objHTTP.responseText, ",")
+        objComma(1)=InStr(objComma(0)+1, objHTTP.responseText, ",")
+        monthly_bw_limit_b=CCur(Mid(objHTTP.responseText, objColon(0)+1, objComma(0)-objColon(0)-1))
+        bw_counter_b=CCur(Mid(objHTTP.responseText, objColon(1)+1, objComma(1)-objColon(1)-1))
+        percent=Round(bw_counter_b/monthly_bw_limit_b*100, 3)
+        If percent > 80 Then
+            Elements.style.[background-color]="red"
+        ElseIf percent > 50 Then
+            Elements.style.[background-color]="yellow"
+        Else
+            Elements.style.[background-color]="green"
+        End If
+        Elements.style.width=percent & "%"
+        Label1.innerHTML="<font face=""Microsoft YaHei UI"">" & percent & " %" & "</font>"
+        Label2.innerHTML="<font face=""Microsoft YaHei UI"">" & " &nbsp;" & Round(bw_counter_b/1000000000, 3) & " GB" & "</font>"
+        Label3.innerHTML="<font face=""Microsoft YaHei UI"">" & Round(monthly_bw_limit_b/1000000000, 3) & " GB&nbsp;" & "</font>"
+    End Sub
+
     Sub StartClash
-        clearInterval(objTimer)
+        clearInterval(objTimer1)
         GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">关闭 Clash</font>"
         objShell.Run "taskkill /im clash-windows-amd64.exe /t /f", 0, True
         GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">关闭系统代理</font>"
@@ -117,7 +116,7 @@
     End Sub
 
     Sub StopClash
-        clearInterval(objTimer)
+        clearInterval(objTimer1)
         GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">关闭 Clash</font>"
         objShell.Run "taskkill /im clash-windows-amd64.exe /t /f", 0, True
         GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">关闭系统代理</font>"
@@ -133,7 +132,7 @@
         objShell.Run "taskkill /im conhost.exe /t /f", 0, True
         objShell.Run "taskkill /im reg.exe /t /f", 0, True
         GetStatus
-        objTimer=setInterval("GetStatus", 60000)
+        objTimer1=setInterval("GetStatus", 60000)
     End Sub
 
     Sub OpenRazord
@@ -159,60 +158,66 @@
 #Chart {
     position: relative;
     width: 100%;
-    height: 60px;
+    height: 100%;
     background-color: #ddd;
 }
 
 #Elements {
-    position: absolute;
+    position: relative;
     width: 0%;
     height: 100%;
-    text-align: center;
 }
 
 #Label1 {
+    position: absolute;
+    width: 100%;
+    top: 0px;
     text-align: center;
-    width: 100px;
-    line-height: 30px;
 }
 
 #Label2 {
     position: absolute;
+    left: 0px;
+    bottom: 0px;
+}
+
+#Label3 {
+    position: absolute;
     right: 0px;
-    line-height: 60px;
+    bottom: 0px;
 }
 
 </style>
 
 <body>
 
-<table border="8" cellspacing="8" width="100%" height="100%">
-    <tr>
+<table border="5" cellspacing="20" width="100%" height="100%">
+    <tr height="35%">
         <th colspan="2"><img height="256px" src="logo.png" /></th>
     </tr>
-    <tr height="64px">
+    <tr height="10%">
         <th width="50%" align="center" valign="center" id="ClashStatus"><font face="Microsoft YaHei UI">Clash<br />&nbsp;</font></th>
         <th align="center" valign="center" id="ProxyStatus"><font face="Microsoft YaHei UI">系统代理</font></th>
     </tr>
-    <tr height="64px">
+    <tr height="10%">
         <td colspan="2" align="center" valign="center" id="GuideArea"><font face="Microsoft YaHei UI">&nbsp;</font></td>
     </tr>
-    <tr height="72px">
-        <td align="center" valign="center"><button onclick="StartClash" style="width:160px;height:64px"><font face="Microsoft YaHei UI">打开<br />Clash</font></button></td>
-        <td align="center" valign="center"><button onclick="StopClash" style="width:160px;height:64px"><font face="Microsoft YaHei UI">关闭<br />Clash</font></button></td>
+    <tr height="10%">
+        <td align="center" valign="center"><button onclick="StartClash" style="width:100%;height:100%;"><font face="Microsoft YaHei UI">打开<br />Clash</font></button></td>
+        <td align="center" valign="center"><button onclick="StopClash" style="width:100%;height:100%"><font face="Microsoft YaHei UI">关闭<br />Clash</font></button></td>
     </tr>
-    <tr height="72px">
-        <td align="center" valign="center"><button onclick="OpenRazord" style="width:160px;height:64px"><font face="Microsoft YaHei UI">Razord<br />Dashboard</font></button></td>
-        <td align="center" valign="center"><button onclick="OpenYacd" style="width:160px;height:64px"><font face="Microsoft YaHei UI">Yacd<br />Dashboard</font></button></td>
+    <tr height="10%">
+        <td align="center" valign="center"><button onclick="OpenRazord" style="width:100%;height:100%;"><font face="Microsoft YaHei UI">Razord<br />Dashboard</font></button></td>
+        <td align="center" valign="center"><button onclick="OpenYacd" style="width:100%;height:100%;"><font face="Microsoft YaHei UI">Yacd<br />Dashboard</font></button></td>
     </tr>
-    <tr height="72px">
-        <td align="center" valign="center"><button onclick="StartEnableLoopback" style="width:160px;height:64px"><font face="Microsoft YaHei UI">运行<br />EnableLoopback</font></button></td>
-        <td align="center" valign="center"><button onclick="OpenClash" style="width:160px;height:64px"><font face="Microsoft YaHei UI">更新<br />Clash 核心</font></button></td>
+    <tr height="10%">
+        <td align="center" valign="center"><button onclick="StartEnableLoopback" style="width:100%;height:100%;"><font face="Microsoft YaHei UI">运行<br />EnableLoopback</font></button></td>
+        <td align="center" valign="center"><button onclick="OpenClash" style="width:100%;height:100%;"><font face="Microsoft YaHei UI">更新<br />Clash 核心</font></button></td>
     </tr>
-    <tr height="64px">
-    <td colspan="2" valign="center"><div id="Chart"><div id="Elements"><div id="Label1"></div></div><div id="Label2"></div></div></td>
+    <tr height="10%">
+    <td colspan="2" valign="center"><div id="Chart"><div id="Elements"></div><div id="Label1"></div><div id="Label2"></div><div id="Label3"></div></div></td>
     </tr>
-    <tr height="0px">
+    <tr height="5%">
         <td colspan="2" align="right" valign="center"><i ><font face="Microsoft YaHei UI">Designed by Amaury&nbsp;</font></i></td>
     </tr>
 </table>
