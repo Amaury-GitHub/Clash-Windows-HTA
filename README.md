@@ -4,7 +4,7 @@
 自用之余传下GitHub吧,万一有人需要呢<br>
 ![image](https://github.com/Amaury-GitHub/Clash_for_Windows_HTA/blob/main/README_IMG/IMG1.png)<br>
 ## 启动时<br>
-自动读取Clash核心版本,然后循环读取Clash进程是否存在,系统代理是否打开,并给出提示,循环时间1s<br>
+自动读取Clash核心版本,然后循环读取Clash进程是否存在,系统代理是否打开,并给出提示,循环时间1m<br>
 自动读取JMS的流量API信息并显示成柱状图,根据百分比不同变色,循环时间10m<br>
 ## 点击 打开 Clash 按钮<br>
 按照以下步骤开启Clash<br>
