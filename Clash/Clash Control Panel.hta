@@ -23,9 +23,9 @@
         objShell.Run "RBTray.exe"
         GetVersion
         GetStatus
-        GetJMS
+        GetHtml
         objTimer(0)=setInterval("GetStatus", 10000)
-        objTimer(1)=setInterval("GetJMS", 600000)
+        objTimer(1)=setInterval("GetHtml", 600000)
     End Select
     End Sub
 
@@ -79,7 +79,7 @@
         End If
     End Sub
 
-    Sub GetJMS
+    Sub GetHtml
         objHTTP.open "GET","https://justmysocks5.net/members/getbwcounter.php?service=xxxxxx&id=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx", False
         objHTTP.send()
         objColon(0)=InStr(objHTTP.responseText, ":")
