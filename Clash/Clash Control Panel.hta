@@ -100,6 +100,7 @@
         Label1.innerHTML="<font face=""Microsoft YaHei UI"">" & percent & " %" & "</font>"
         Label2.innerHTML="<font face=""Microsoft YaHei UI"">" & "&nbsp;" & Round(bw_counter_b/1000000000, 3) & " GB" & "</font>"
         Label3.innerHTML="<font face=""Microsoft YaHei UI"">" & Round(monthly_bw_limit_b/1000000000, 3) & " GB&nbsp;" & "</font>"
+        objShell.Run "choice /t 1 /d y", 0, True
         objHTTP.open "GET","https://github.com/Dreamacro/clash/releases/tag/premium", False
         objHTTP.send()
         objVersion(0)=InStr(objHTTP.responseText, "Premium")
