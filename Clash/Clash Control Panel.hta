@@ -13,7 +13,7 @@
 
     Set objShell=CreateObject("WScript.Shell")
     Set objHTTP=CreateObject("Msxml2.ServerXMLHTTP.6.0")
-    Dim objTimer(1), objColon(1), objComma(1), monthly_bw_limit_b, bw_counter_b, percent
+    Dim objTimer(1), objColon(1), objComma(1), objVersion(1), monthly_bw_limit_b, bw_counter_b, percent
 
     Sub StepWise (nStage)
     Select Case nStage
@@ -100,6 +100,11 @@
         Label1.innerHTML="<font face=""Microsoft YaHei UI"">" & percent & " %" & "</font>"
         Label2.innerHTML="<font face=""Microsoft YaHei UI"">" & "&nbsp;" & Round(bw_counter_b/1000000000, 3) & " GB" & "</font>"
         Label3.innerHTML="<font face=""Microsoft YaHei UI"">" & Round(monthly_bw_limit_b/1000000000, 3) & " GB&nbsp;" & "</font>"
+        objHTTP.open "GET","https://github.com/Dreamacro/clash/releases/tag/premium", False
+        objHTTP.send()
+        objVersion(0)=InStr(objHTTP.responseText, "Premium")
+        objVersion(1)=InStr(objHTTP.responseText, "·")
+        GithubClash.innerHTML="<font face=""Microsoft YaHei UI"">" & "Github Clash<br />" & Mid(objHTTP.responseText, objVersion(0)+8, objVersion(1)-objVersion(0)-8) & "</font>"
     End Sub
 
     Sub StartClash
@@ -220,7 +225,7 @@
     </tr>
     <tr height="10%">
         <td style="padding:8px 32px;"><button onclick="StartEnableLoopback" style="width:100%;height:100%;"><font face="Microsoft YaHei UI">运行<br />EnableLoopback</font></button></td>
-        <td style="padding:8px 32px;"><button onclick="OpenClash" style="width:100%;height:100%;"><font face="Microsoft YaHei UI">更新<br />Clash 核心</font></button></td>
+        <td style="padding:8px 32px;"><button onclick="OpenClash" style="width:100%;height:100%;" id="GithubClash"><font face="Microsoft YaHei UI">Github Clash<br />&nbsp;</font></button></td>
     </tr>
     <tr height="10%">
     <td colspan="2"><div id="Chart"><div id="Elements"></div><div id="Label1"></div><div id="Label2"></div><div id="Label3"></div></div></td>
