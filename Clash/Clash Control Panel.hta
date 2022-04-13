@@ -116,7 +116,7 @@
         objShell.Run "reg delete ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyOverride /f", 0
         objShell.Run "reg delete ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyServer /f", 0
         GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">更新 Country.mmdb</font>"
-        objShell.Run "powershell (new-object System.Net.WebClient).DownloadFile('https://gitcode.net/mirrors/Hackl0us/GeoIP2-CN/-/blob/release/Country.mmdb','Country.mmdb')", 0, True
+        objShell.Run "powershell (new-object System.Net.WebClient).DownloadFile('https://gitcode.net/mirrors/Hackl0us/GeoIP2-CN/-/raw/release/Country.mmdb','Country.mmdb')", 0, True
         GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">打开系统代理</font>"
         objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyEnable /t REG_DWORD /d 1 /f", 0, True
         objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyOverride /t REG_SZ /d <local> /f", 0, True
