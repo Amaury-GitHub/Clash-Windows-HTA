@@ -1,6 +1,8 @@
 # Clash_for_Windows_HTA
 ## 使用VBScript编写的Clash控制面板<br>
-服务器和规则稳定之后没必要使用那么重的工具,动辄上百M,HTA非常轻量化,记事本就可以编辑<br>
+一个工控人的摸鱼作品,欢迎指正<br>
+Clash for Windows的软件都太大了,动辄上百M,很多功能我也不需要<br>
+HTA非常轻量化,记事本就可以编辑,可以按照自己的需求进行打造<br>
 自用之余传下GitHub吧,万一有人需要呢<br>
 ![image](https://github.com/Amaury-GitHub/Clash_for_Windows_HTA/blob/main/README_IMG/IMG1.png)<br>
 ## 启动时<br>
@@ -9,10 +11,10 @@
 2. 调整窗口位置
 3. 启动RBTray,实现右键最小化按钮缩到托盘区,(实在不知道如何使用程序实现,调用外部程序)
 4. 读取 Clash 版本
-5. 获取  Clash & 系统代理 是否开启
-6. 读取 JMS 的流量API信息
+5. 获取 Clash & 系统代理 是否开启
+6. 读取 JMS 的流量 API 信息,读取已发布的最新的 Clash 版本
 7. 建立读状态的循环,循环时间 10s
-8. 建立读流量的循环,循环时间 10m
+8. 建立读网页信息的循环,循环时间 10m
 ## 关闭时<br>
 清除所有调用的进程,保留Clash核心<br>
 ## 点击 打开 Clash 按钮<br>
@@ -39,9 +41,9 @@
 访问 http://yacd.haishan.me/
 ## 点击 运行 EnableLoopback 按钮<br>
 运行目录下的EnableLoopback.exe,让UWP应用可以正常上网
-## 点击 更新 Clash 核心 按钮<br>
+## 点击 Github Clash 按钮<br>
 访问 https://github.com/Dreamacro/clash/releases/tag/premium<br>
-自行判断是否需要更新吧
+两个版本不一致可以去更新,自动更新就算了,感觉超出能力范畴了
 ## 修改提示<br>
 ![image](https://github.com/Amaury-GitHub/Clash_for_Windows_HTA/blob/main/README_IMG/IMG2.png)<br>
 ## 广告<br>
