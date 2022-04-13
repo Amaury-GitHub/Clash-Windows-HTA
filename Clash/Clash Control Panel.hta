@@ -38,10 +38,10 @@
     Sub Window_OnUnload
         clearInterval(objTimer(0))
         clearInterval(objTimer(1))
+        objShell.Run "RBTray.exe --exit"
         objShell.Run "taskkill /im cmd.exe /t /f", 0, True
         objShell.Run "taskkill /im conhost.exe /t /f", 0, True
         objShell.Run "taskkill /im reg.exe /t /f", 0, True
-        objShell.Run "RBTray.exe --exit"
         Set objShell = Nothing
         Set objHTTP = Nothing
     End Sub
