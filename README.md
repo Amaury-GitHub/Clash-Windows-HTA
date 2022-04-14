@@ -36,9 +36,11 @@ HTA非常轻量化,记事本就可以编辑,可以按照自己的需求进行打
 4. 清除调用的进程
 5. 开启循环读取
 ## 点击 Razord Dashboard 按钮<br>
-访问 http://clash.razord.top/
+yaml需要配置ui的路径,external-ui: /dashboard
+访问 http://127.0.0.1:9090/ui/razord
 ## 点击 Yacd Dashboard 按钮<br>
-访问 http://yacd.haishan.me/
+yaml需要配置ui的路径,external-ui: /dashboard
+访问 http://127.0.0.1:9090/ui/yacd
 ## 点击 运行 EnableLoopback 按钮<br>
 运行目录下的EnableLoopback.exe,让UWP应用可以正常上网
 ## 点击 Github Clash 按钮<br>
