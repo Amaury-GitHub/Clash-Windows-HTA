@@ -105,7 +105,7 @@
         Label1.innerHTML="<font face=""Microsoft YaHei UI"">" & percent & " %" & "</font>"
         Label2.innerHTML="<font face=""Microsoft YaHei UI"">" & "&nbsp;" & Round(bw_counter_b/1000000000, 3) & " GB" & "</font>"
         Label3.innerHTML="<font face=""Microsoft YaHei UI"">" & Round(monthly_bw_limit_b/1000000000, 3) & " GB&nbsp;" & "</font>"
-        objHTTP.open "GET","https://gitcode.net/mirrors/Dreamacro/clash/-/releases/premium", False
+        objHTTP.open "GET","https://api.no0a.cn/api/sitetitle/query?url=https://github.com/Dreamacro/clash/releases/tag/premium", False
         objHTTP.send()
         objVersion(0)=InStr(objHTTP.responseText, "Premium")
         objVersion(1)=InStr(objHTTP.responseText, "·")
