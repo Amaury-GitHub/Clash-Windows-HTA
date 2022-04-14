@@ -76,6 +76,7 @@
             objShell.Run "RBTray.exe"
         End If
         If colClashStatus.Count = 0 Then
+        GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">关闭系统代理</font>"
         objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyEnable /t REG_DWORD /d 0 /f", 0, True
         objShell.Run "reg delete ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyOverride /f", 0
         objShell.Run "reg delete ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyServer /f", 0
@@ -83,7 +84,7 @@
     End Sub
 
     Sub GetHtml
-        GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">读取流量API</font>"
+        GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">读取流量 API</font>"
         objHTTP.open "GET","https://justmysocks5.net/members/getbwcounter.php?service=xxxxxx&id=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx", False
         objHTTP.send()
         objColon(0)=InStr(objHTTP.responseText, ":")
@@ -104,7 +105,7 @@
         Label1.innerHTML="<font face=""Microsoft YaHei UI"">" & percent & " %" & "</font>"
         Label2.innerHTML="<font face=""Microsoft YaHei UI"">" & "&nbsp;" & Round(bw_counter_b/1000000000, 3) & " GB" & "</font>"
         Label3.innerHTML="<font face=""Microsoft YaHei UI"">" & Round(monthly_bw_limit_b/1000000000, 3) & " GB&nbsp;" & "</font>"
-        GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">读取在线Clash版本</font>"
+        GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">读取在线 Clash 版本</font>"
         objHTTP.open "GET","https://gitcode.net/mirrors/Dreamacro/clash/-/releases/premium", False
         objHTTP.send()
         objVersion(0)=InStr(objHTTP.responseText, "Premium")
