@@ -12,9 +12,8 @@
 <script language="VBScript">
 
     Set objShell=CreateObject("WScript.Shell")
-    Set objHTTP1=CreateObject("Msxml2.ServerXMLHTTP.6.0")
-    Set objHTTP2=CreateObject("Msxml2.ServerXMLHTTP.6.0")
-    Dim objTemp, objTimer(1), objColon(1), objComma(1), objVersion(1), monthly_bw_limit_b, bw_counter_b, percent
+    Set objHTTP=CreateObject("Msxml2.ServerXMLHTTP.6.0")
+    Dim objTimer(1), objColon(1), objComma(1), objVersion(1), monthly_bw_limit_b, bw_counter_b, percent
 
     Sub StepWise (nStage)
     Select Case nStage
@@ -25,6 +24,7 @@
         GetVersion
         GetStatus
         objTimer(0)=setInterval("GetStatus", 10000)
+        objTimer(1)=setInterval("GetHtml", 3600000)
     End Select
     End Sub
 
@@ -62,11 +62,9 @@
         End If
         If colClashStatus.Count > 0 And colProxyStatus > 0 Then
             GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">Clash & 系统代理 已打开</font>"
-            If objTemp = False Then
+            If Elements.style.[background-color] = transparent Then
                 GetHtml
-                objTimer(1)=setInterval("GetHtml", 3600000)
             End If
-            objTemp = True
         ElseIf colClashStatus.Count = 0 And colProxyStatus = 0 Then
             GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">Clash & 系统代理 未打开</font>"
         ElseIf colClashStatus.Count = 0 And colProxyStatus > 0 Then
@@ -85,16 +83,15 @@
     End Sub
 
     Sub GetHtml
-        objShell.Run "choice /t 5 /d y", 0, True
         GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">读取流量API</font>"
-        objHTTP1.open "GET","https://justmysocks5.net/members/getbwcounter.php?service=xxxxxx&id=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx", False
-        objHTTP1.send()
-        objColon(0)=InStr(objHTTP1.responseText, ":")
-        objColon(1)=InStr(objColon(0)+1, objHTTP1.responseText, ":")
-        objComma(0)=InStr(objHTTP1.responseText, ",")
-        objComma(1)=InStr(objComma(0)+1, objHTTP1.responseText, ",")
-        monthly_bw_limit_b=CCur(Mid(objHTTP1.responseText, objColon(0)+1, objComma(0)-objColon(0)-1))
-        bw_counter_b=CCur(Mid(objHTTP1.responseText, objColon(1)+1, objComma(1)-objColon(1)-1))
+        objHTTP.open "GET","https://justmysocks5.net/members/getbwcounter.php?service=xxxxxx&id=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx", False
+        objHTTP.send()
+        objColon(0)=InStr(objHTTP.responseText, ":")
+        objColon(1)=InStr(objColon(0)+1, objHTTP.responseText, ":")
+        objComma(0)=InStr(objHTTP.responseText, ",")
+        objComma(1)=InStr(objComma(0)+1, objHTTP.responseText, ",")
+        monthly_bw_limit_b=CCur(Mid(objHTTP.responseText, objColon(0)+1, objComma(0)-objColon(0)-1))
+        bw_counter_b=CCur(Mid(objHTTP.responseText, objColon(1)+1, objComma(1)-objColon(1)-1))
         percent=Round(bw_counter_b/monthly_bw_limit_b*100, 3)
         If percent > 80 Then
             Elements.style.[background-color]="red"
@@ -108,18 +105,17 @@
         Label2.innerHTML="<font face=""Microsoft YaHei UI"">" & "&nbsp;" & Round(bw_counter_b/1000000000, 3) & " GB" & "</font>"
         Label3.innerHTML="<font face=""Microsoft YaHei UI"">" & Round(monthly_bw_limit_b/1000000000, 3) & " GB&nbsp;" & "</font>"
         GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">读取在线Clash版本</font>"
-        objHTTP2.open "GET","https://gitcode.net/mirrors/Dreamacro/clash/-/releases/premium", False
-        objHTTP2.send()
-        objVersion(0)=InStr(objHTTP2.responseText, "Premium")
-        objVersion(1)=InStr(objHTTP2.responseText, "·")
-        GithubClash.innerHTML="<font face=""Microsoft YaHei UI"">" & "Github Clash<br />" & Mid(objHTTP2.responseText, objVersion(0)+8, objVersion(1)-objVersion(0)-8) & "</font>"
+        objHTTP.open "GET","https://gitcode.net/mirrors/Dreamacro/clash/-/releases/premium", False
+        objHTTP.send()
+        objVersion(0)=InStr(objHTTP.responseText, "Premium")
+        objVersion(1)=InStr(objHTTP.responseText, "·")
+        GithubClash.innerHTML="<font face=""Microsoft YaHei UI"">" & "Github Clash<br />" & Mid(objHTTP.responseText, objVersion(0)+8, objVersion(1)-objVersion(0)-8) & "</font>"
         GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">更新 Country.mmdb</font>"
-        objShell.Run "powershell (new-object System.Net.WebClient).DownloadFile('https://github.com/Hackl0us/GeoIP2-CN/raw/release/Country.mmdb','Country.mmdb')", 0, True
+        objShell.Run "powershell (new-object System.Net.WebClient).DownloadFile('https://cdn.jsdelivr.net/gh/Hackl0us/GeoIP2-CN@release/Country.mmdb','Country.mmdb')", 0, True
     End Sub
 
     Sub StartClash
         clearInterval(objTimer(0))
-        clearInterval(objTimer(1))
         GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">关闭 Clash</font>"
         objShell.Run "taskkill /im clash-windows-amd64.exe /t /f", 0, True
         GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">读取 Clash 版本</font>"
@@ -131,12 +127,12 @@
         objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyOverride /t REG_SZ /d <local> /f", 0, True
         objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyServer /t REG_SZ /d 127.0.0.1:7890 /f", 0, True
         GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">打开 Clash & 系统代理 完成</font>"
+        objShell.Run "choice /t 5 /d y", 0, True
         Cycle
     End Sub
 
     Sub StopClash
         clearInterval(objTimer(0))
-        clearInterval(objTimer(1))
         GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">关闭 Clash</font>"
         objShell.Run "taskkill /im clash-windows-amd64.exe /t /f", 0, True
         GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">关闭系统代理</font>"
