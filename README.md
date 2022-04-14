@@ -14,7 +14,7 @@ HTA非常轻量化,记事本就可以编辑,可以按照自己的需求进行打
 5. 获取 Clash & 系统代理 是否开启
 6. 读取 JMS 的流量 API 信息,读取已发布的最新的 Clash 版本
 7. 建立读状态的循环,循环时间 10s
-8. 建立读网页信息的循环,循环时间 10m
+8. 建立读网页信息的循环,循环时间 1h
 ## 关闭时<br>
 清除所有调用的进程,保留Clash核心<br>
 ## 点击 打开 Clash 按钮<br>
@@ -53,4 +53,3 @@ HTA非常轻量化,记事本就可以编辑,可以按照自己的需求进行打
 有需要的小伙伴可以尝试一下<br>
 [Just My Socks官网](https://justmysocks.net/members/aff.php?aff=15760)<br>
 [Just My Socks5官网镜像,可直连](https://justmysocks5.net/members/aff.php?aff=15760)
-
