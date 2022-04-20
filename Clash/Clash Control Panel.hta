@@ -12,6 +12,7 @@
 <script language="VBScript">
 
     Set objShell=CreateObject("WScript.Shell")
+    Set objFile=CreateObject("Scripting.FileSystemObject")
     Set objHTTP=CreateObject("Msxml2.ServerXMLHTTP.6.0")
     Dim objTimer(1), objColon(1), objComma(1), objVersion(1), monthly_bw_limit_b, bw_counter_b, percent
 
@@ -111,7 +112,11 @@
         GithubClash.innerHTML="<font face=""Microsoft YaHei UI"">" & "Github Clash<br />" & Mid(objHTTP.responseText, objVersion(0)+8, objVersion(1)-objVersion(0)-8) & "</font>"
         GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">更新 Country.mmdb</font>"
         objShell.Run "choice /t 1 /d y", 0, True
-        objShell.Run "powershell (new-object System.Net.WebClient).DownloadFile('https://cdn.jsdelivr.net/gh/Hackl0us/GeoIP2-CN@release/Country.mmdb','Country.mmdb')", 0, True
+        objShell.Run "powershell (new-object System.Net.WebClient).DownloadFile('https://cdn.jsdelivr.net/gh/Hackl0us/GeoIP2-CN@release/Country.mmdb','Country.mmdb.new')", 0, True
+        If objFile.GetFile("Country.mmdb.new").size > 0 Then
+            objShell.Run "cmd /c copy /y Country.mmdb.new Country.mmdb",0 , true
+            objShell.Run "cmd /c del *.new",0 , true
+        End If
     End Sub
 
     Sub StartClash
