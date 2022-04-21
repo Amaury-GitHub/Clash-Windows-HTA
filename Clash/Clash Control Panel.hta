@@ -126,7 +126,7 @@
         GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">读取 Clash 版本</font>"
         GetVersion
         GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">打开 Clash</font>"
-        objShell.Run "clash-windows-amd64 -d . -f .\config.yaml", 0
+        objShell.Run "clash-windows-amd64 -d . -f ./config.yaml", 0
         GuideArea.InnerHTML="<font face=""Microsoft YaHei UI"">打开系统代理</font>"
         objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyEnable /t REG_DWORD /d 1 /f", 0, True
         objShell.Run "reg add ""HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings"" /v ProxyOverride /t REG_SZ /d <local> /f", 0, True
