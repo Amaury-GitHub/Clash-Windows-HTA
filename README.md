@@ -46,10 +46,3 @@ yaml需要配置ui的路径,external-ui: /dashboard<br>
 两个版本不一致可以去更新,自动更新就算了,感觉超出能力范畴了
 ## 修改提示<br>
 ![image](https://github.com/Amaury-GitHub/Clash_for_Windows_HTA/blob/main/README_IMG/IMG2.png)<br>
-## 广告<br>
-目前在使用Just My Socks的服务,感觉还不错<br>
-配置文件写成自动测速选择服务器之后都完全不用维护了,会自动换IP<br>
-之前使用GCP的免费服务,三天两头IP被封,443端口直接阻塞<br>
-有需要的小伙伴可以尝试一下<br>
-[Just My Socks官网](https://justmysocks.net/members/aff.php?aff=15760)<br>
-[Just My Socks5官网镜像,可直连](https://justmysocks5.net/members/aff.php?aff=15760)
